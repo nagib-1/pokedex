@@ -1,0 +1,31 @@
+.navbar.bg-body-tertiary {
+    background-color: #5480ac !important;
+    height: 128px;
+}
+
+.white-color {
+    color: white !important;
+}
+
+.btn.btn-outline-success {
+    color: white !important;
+    border-color: white !important;
+}
+
+.content {
+    height: 100vh;
+    background-color: #2e455a;
+}
+
+.container-fluid img {
+    height: 80px;
+}
+
+footer {
+    background-color: #376491 !important;
+    height: 68px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
