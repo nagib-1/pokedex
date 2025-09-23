@@ -1,17 +1,41 @@
 let allPokemons = [];
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100&offset=0";
+const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0";
 
 
 async function init() {
     let response = await fetch(BASE_URL)
     let keysArray = await response.json();
-    for (let index = 0; index < keysArray.length; index++) {
+    const content = document.getElementById('content');
+    content.innerHTML = "";
+
+    for (let index = 0; index < keysArray.results.length; index++) {
+        const poke = keysArray.results[index];
         allPokemons.push({
-            id: keysArray[index],
-            pokemon: response[keysArray[index]]
+            pokemon: keysArray.results[index],
         })
 
+        console.log(keysArray.results[index]);
+
+        document.getElementById('content').innerHTML = keysArray.results
     }
-    console.log(keysArray.results[0]);
-    document.getElementById('content'). innerHTML = keysArray.results[0];
 }
+
+
+
+//Bilder SVG
+/* 
+
+  "sprites": {
+    "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png",
+    "back_female": null,
+    "back_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png",
+    "back_shiny_female": null,
+    "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+    "front_female": null,
+    "front_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png",
+    "front_shiny_female": null,
+    "other": {
+      "dream_world": {
+        "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg",
+        "front_female": null
+      }, */
