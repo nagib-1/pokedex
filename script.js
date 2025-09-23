@@ -1,26 +1,38 @@
 let allPokemons = [];
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0";
 
-
 async function init() {
-    let response = await fetch(BASE_URL)
-    let keysArray = await response.json();
-    const content = document.getElementById('content');
-    content.innerHTML = "";
+  const content = document.getElementById('content');
 
-    for (let index = 0; index < keysArray.results.length; index++) {
-        const poke = keysArray.results[index];
-        allPokemons.push({
-            pokemon: keysArray.results[index],
-        })
+  const response = await fetch(BASE_URL)
+  const data = await response.json();
 
-        console.log(keysArray.results[index]);
+  const fragment = document.createDocumentFragment();
 
-        document.getElementById('content').innerHTML = keysArray.results
-    }
+  for (let index = 0; index < data.results.length; index++) {
+    const names = data.results[index];
+
+    const detailRes = await fetch(names.url);
+    const detailData = await detailRes.json();
+    const imgUrl = detailData.sprites.other.dream_world.front_default;
+
+    const card = document.createElement('div');
+    card.className = 'pokemon-card';
+    const title = document.createElement('h3');
+    title.textContent = names.name;
+    const img = document.createElement('img');
+    img.src = imgUrl;
+
+    card.appendChild(title);
+    card.appendChild(img);
+    fragment.appendChild(card);
+
+    console.log(data.results[index]);
+    console.log(names.name, imgUrl);
+  }
+
+  content.appendChild(fragment)
 }
-
-
 
 //Bilder SVG
 /* 
