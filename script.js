@@ -1,5 +1,5 @@
-let allPokemons = [];
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=50&offset=0";
+const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=251&offset=0";
+
 
 async function init() {
   const content = document.getElementById('content');
@@ -34,8 +34,17 @@ async function init() {
     attributes.className = 'attributes';
     const firstAttribut = detailData.types[0].type.name;
     const firstAttributIcon = document.createElement('img');
-    const secondAttribut = detailData.types[1] ? detailData.types[1].type.name : null;
     firstAttributIcon.className = 'attribut-icon';
+    let secondAttribut;
+    let secondAttributIcon;
+
+    if (detailData.types.length > 1) {
+      secondAttribut = detailData.types[1].type.name;
+      secondAttributIcon = document.createElement('img');
+      secondAttributIcon.className = 'attribut-icon';
+    } else {
+      secondAttribut = null;
+    }
 
     switch (firstAttribut) {
       case "bug":
@@ -164,12 +173,11 @@ async function init() {
     cardCover.appendChild(cardHeader);
     cardHeader.appendChild(cardNumber);
     cardHeader.appendChild(title);
-
     cardCover.appendChild(imgClass);
     imgClass.appendChild(img);
-
     cardCover.appendChild(attributes);
     attributes.appendChild(firstAttributIcon);
+
     if (secondAttributIcon) {
       attributes.appendChild(secondAttributIcon);
     }
