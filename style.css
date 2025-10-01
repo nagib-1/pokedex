@@ -1,3 +1,9 @@
+body {
+    background-color: #2e455a !important;
+    margin: 0;
+    padding: 0;
+}
+
 .navbar.bg-body-tertiary {
     background-color: #5480ac !important;
     height: 128px;
@@ -27,7 +33,6 @@ footer {
 
 .content {
     height: 100%;
-    background-color: #2e455a;
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
@@ -92,4 +97,57 @@ footer {
 .attributes img {
     width: 28px;
     height: 28px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-more {
+    padding: 30px;
+    margin: 20px;
+    border-radius: 28px;
+    border: none;
+    background-color: #388b8bdb;
+    color: #fff;
+    width: 220px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(160, 98, 129);
+    transition: opacity 0.75s, visibility 0.75s;
+    display: none;
+}
+
+.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader img {
+    width: 350px;
+    height: 350px;
+    animation: spin 1.75s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
 }
