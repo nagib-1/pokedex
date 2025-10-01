@@ -1,4 +1,4 @@
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0";
+const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=25&offset=0";
 const TYPE_ICON = {
   bug: "/icons/bug.svg",
   dark: "/icons/dark.svg",
@@ -19,29 +19,32 @@ const TYPE_ICON = {
   steel: "/icons/steel.svg",
   water: "/icons/water.svg",
 };
-const limit = 20;
-let offset = 20;
+const limit = 25;
+let offset = 25;
 
 async function init() {
-  const response = await fetch(BASE_URL)
-  const data = await response.json();
+  showLoader();
 
-  for (let index = 0; index < data.results.length; index++) {
-    const names = data.results[index];
-    const detailRes = await fetch(names.url);
-    const detailData = await detailRes.json();
-    const imgUrl = detailData.sprites.other.dream_world.front_default;
-    const firstAttribut = detailData.types[0].type.name;
-    const firstAttributIcon = TYPE_ICON[firstAttribut];
-    const secondAttribut = detailData.types[1]?.type.name;
-    const secondAttributIcon = secondAttribut ? TYPE_ICON[secondAttribut] : null;
+  try {
+    const response = await fetch(BASE_URL)
+    const data = await response.json();
 
-    let icons = `<img class="attribut-icon" src="${firstAttributIcon}">`;
-    if (secondAttributIcon) {
-      icons += `<img class="attribut-icon" src="${secondAttributIcon}">`;
-    }
+    for (let index = 0; index < data.results.length; index++) {
+      const names = data.results[index];
+      const detailRes = await fetch(names.url);
+      const detailData = await detailRes.json();
+      const imgUrl = detailData.sprites.other.dream_world.front_default;
+      const firstAttribut = detailData.types[0].type.name;
+      const firstAttributIcon = TYPE_ICON[firstAttribut];
+      const secondAttribut = detailData.types[1]?.type.name;
+      const secondAttributIcon = secondAttribut ? TYPE_ICON[secondAttribut] : null;
 
-    const card = `
+      let icons = `<img class="attribut-icon" src="${firstAttributIcon}">`;
+      if (secondAttributIcon) {
+        icons += `<img class="attribut-icon" src="${secondAttributIcon}">`;
+      }
+
+      const card = `
     <div class="card-cover">
       <div class="card-header">
         <h5>#${index + 1}</h5>
@@ -55,31 +58,42 @@ async function init() {
       </div>
     </div>
     `
-    document.getElementById('content').innerHTML += card;
+      document.getElementById('content').innerHTML += card;
+    }
+  } catch {
+    document.getElementById("content").innerHTML =
+      `<p>ERROR</p>`;
+  } finally {
+    hideLoader();
   }
 }
 
 async function loadMore() {
-  const nextUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
-  const response = await fetch(nextUrl)
-  const data = await response.json();
+  const btn = document.getElementById('loadMoreButton');
+  btn.disabled = true;
+  showLoader();
 
-  for (let index = 0; index < data.results.length; index++) {
-    const names = data.results[index];
-    const detailRes = await fetch(names.url);
-    const detailData = await detailRes.json();
-    const imgUrl = detailData.sprites.other.dream_world.front_default;
-    const firstAttribut = detailData.types[0].type.name;
-    const firstAttributIcon = TYPE_ICON[firstAttribut];
-    const secondAttribut = detailData.types[1]?.type.name;
-    const secondAttributIcon = secondAttribut ? TYPE_ICON[secondAttribut] : null;
+  try {
+    const nextUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
+    const response = await fetch(nextUrl)
+    const data = await response.json();
 
-    let icons = `<img class="attribut-icon" src="${firstAttributIcon}">`;
-    if (secondAttributIcon) {
-      icons += `<img class="attribut-icon" src="${secondAttributIcon}">`;
-    }
+    for (let index = 0; index < data.results.length; index++) {
+      const names = data.results[index];
+      const detailRes = await fetch(names.url);
+      const detailData = await detailRes.json();
+      const imgUrl = detailData.sprites.other.dream_world.front_default;
+      const firstAttribut = detailData.types[0].type.name;
+      const firstAttributIcon = TYPE_ICON[firstAttribut];
+      const secondAttribut = detailData.types[1]?.type.name;
+      const secondAttributIcon = secondAttribut ? TYPE_ICON[secondAttribut] : null;
 
-    const card = `
+      let icons = `<img class="attribut-icon" src="${firstAttributIcon}">`;
+      if (secondAttributIcon) {
+        icons += `<img class="attribut-icon" src="${secondAttributIcon}">`;
+      }
+
+      const card = `
     <div class="card-cover">
       <div class="card-header">
         <h5>#${index + offset + 1}</h5>
@@ -93,11 +107,25 @@ async function loadMore() {
       </div>
     </div>
     `
-    document.getElementById('content').innerHTML += card;
-  }
+      document.getElementById('content').innerHTML += card;
+    }
 
-  offset += limit;
-  index += 20;
+    offset += limit;
+  } catch {
+    `<p>Error</p>`
+  } finally {
+    hideLoader();
+    btn.disabled = false;
+  }
+}
+
+function showLoader() {
+  const loader = document.querySelector(".loader");
+  loader?.classList.remove("loader-hidden");
+}
+function hideLoader() {
+  const loader = document.querySelector(".loader");
+  loader?.classList.add("loader-hidden");
 }
 
 function showDetails() {

@@ -127,12 +127,9 @@ footer {
     justify-content: center;
     align-items: center;
     background-color: rgb(160, 98, 129);
-    transition: opacity 0.75s, visibility 0.75s;
-    display: none;
 }
 
 .loader-hidden {
-    opacity: 0;
     visibility: hidden;
 }
 
