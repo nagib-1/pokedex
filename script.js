@@ -1,23 +1,23 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=25&offset=0";
-const TYPE_ICON = {
-  bug: "/icons/bug.svg",
-  dark: "/icons/dark.svg",
-  dragon: "/icons/dragon.svg",
-  electric: "/icons/electric.svg",
-  fairy: "/icons/fairy.svg",
-  fighting: "/icons/fighting.svg",
-  fire: "/icons/fire.svg",
-  flying: "/icons/flying.svg",
-  ghost: "/icons/ghost.svg",
-  grass: "/icons/grass.svg",
-  ground: "/icons/ground.svg",
-  ice: "/icons/ice.svg",
-  normal: "/icons/normal.svg",
-  poison: "/icons/poison.svg",
-  psychic: "/icons/psychic.svg",
-  rock: "/icons/rock.svg",
-  steel: "/icons/steel.svg",
-  water: "/icons/water.svg",
+const TYPE_DATA = {
+  bug: { icon: "/icons/bug.svg", color: "#A8B820" },
+  dark: { icon: "/icons/dark.svg", color: "#705848" },
+  dragon: { icon: "/icons/dragon.svg", color: "#7038F8" },
+  electric: { icon: "/icons/electric.svg", color: "#F8D030" },
+  fairy: { icon: "/icons/fairy.svg", color: "#EE99AC" },
+  fighting: { icon: "/icons/fighting.svg", color: "#C03028" },
+  fire: { icon: "/icons/fire.svg", color: "#F08030" },
+  flying: { icon: "/icons/flying.svg", color: "#A890F0" },
+  ghost: { icon: "/icons/ghost.svg", color: "#705898" },
+  grass: { icon: "/icons/grass.svg", color: "#78C850" },
+  ground: { icon: "/icons/ground.svg", color: "#E0C068" },
+  ice: { icon: "/icons/ice.svg", color: "#98D8D8" },
+  normal: { icon: "/icons/normal.svg", color: "#A8A878" },
+  poison: { icon: "/icons/poison.svg", color: "#A040A0" },
+  psychic: { icon: "/icons/psychic.svg", color: "#F85888" },
+  rock: { icon: "/icons/rock.svg", color: "#B8A038" },
+  steel: { icon: "/icons/steel.svg", color: "#B8B8D0" },
+  water: { icon: "/icons/water.svg", color: "#6890F0" },
 };
 const limit = 25;
 let offset = 25;
@@ -34,10 +34,15 @@ async function init() {
       const detailRes = await fetch(names.url);
       const detailData = await detailRes.json();
       const imgUrl = detailData.sprites.other.dream_world.front_default;
+
       const firstAttribut = detailData.types[0].type.name;
-      const firstAttributIcon = TYPE_ICON[firstAttribut];
-      const secondAttribut = detailData.types[1]?.type.name;
-      const secondAttributIcon = secondAttribut ? TYPE_ICON[secondAttribut] : null;
+      const firstType = TYPE_DATA[firstAttribut];
+      const firstAttributIcon = firstType?.icon;
+      const backgroundCart = firstType?.color;
+
+      const secondAttribut = detailData.types[1]?.type?.name;
+      const secondType = secondAttribut ? TYPE_DATA[secondAttribut] : null;
+      const secondAttributIcon = secondType?.icon;
 
       let icons = `<img class="attribut-icon" src="${firstAttributIcon}">`;
       if (secondAttributIcon) {
@@ -50,7 +55,7 @@ async function init() {
         <h5>#${index + 1}</h5>
         <h4>${names.name}</h4>
       </div>
-      <div class="pokemon-image">
+      <div class="pokemon-image" style="background:${backgroundCart}">
         <img src="${imgUrl}">
       </div>
       <div class="attributes">
@@ -83,10 +88,15 @@ async function loadMore() {
       const detailRes = await fetch(names.url);
       const detailData = await detailRes.json();
       const imgUrl = detailData.sprites.other.dream_world.front_default;
+
       const firstAttribut = detailData.types[0].type.name;
-      const firstAttributIcon = TYPE_ICON[firstAttribut];
+      const firstType = TYPE_DATA[firstAttribut];
+      const firstAttributIcon = firstType?.icon;
+      const backgroundCart = firstType?.color;
+
       const secondAttribut = detailData.types[1]?.type.name;
-      const secondAttributIcon = secondAttribut ? TYPE_ICON[secondAttribut] : null;
+      const secondType = secondAttribut ? TYPE_DATA[secondAttribut] : null;
+      const secondAttributIcon = secondType?.icon;
 
       let icons = `<img class="attribut-icon" src="${firstAttributIcon}">`;
       if (secondAttributIcon) {
@@ -99,7 +109,7 @@ async function loadMore() {
         <h5>#${index + offset + 1}</h5>
         <h4>${names.name}</h4>
       </div>
-      <div class="pokemon-image">
+      <div class="pokemon-image" style="background:${backgroundCart}">
         <img src="${imgUrl}">
       </div>
       <div class="attributes">
@@ -107,6 +117,7 @@ async function loadMore() {
       </div>
     </div>
     `
+
       document.getElementById('content').innerHTML += card;
     }
 

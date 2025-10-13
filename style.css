@@ -74,7 +74,6 @@ footer {
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    background: #f4f4f45d;
     border: 1px solid #eeeeee9d;
     display: flex;
     justify-content: center;
@@ -85,7 +84,6 @@ footer {
 .pokemon-image img {
     width: 140px;
     height: 140px;
-    object-fit: contain;
 }
 
 .attributes {
