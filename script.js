@@ -50,7 +50,7 @@ async function init() {
       }
 
       const card = `
-    <div class="card-cover">
+    <div class="card-cover" onclick="showDetails('${names.url}')">
       <div class="card-header">
         <h5>#${index + 1}</h5>
         <h4>${names.name}</h4>
@@ -62,7 +62,7 @@ async function init() {
         ${icons}
       </div>
     </div>
-    `
+    `;
       document.getElementById('content').innerHTML += card;
     }
   } catch {
@@ -104,7 +104,7 @@ async function loadMore() {
       }
 
       const card = `
-    <div class="card-cover">
+    <div class="card-cover" onclick="showDetails('${names.url}')">
       <div class="card-header">
         <h5>#${index + offset + 1}</h5>
         <h4>${names.name}</h4>
@@ -116,7 +116,7 @@ async function loadMore() {
         ${icons}
       </div>
     </div>
-    `
+    `;
 
       document.getElementById('content').innerHTML += card;
     }
@@ -134,12 +134,108 @@ function showLoader() {
   const loader = document.querySelector(".loader");
   loader?.classList.remove("loader-hidden");
 }
+
 function hideLoader() {
   const loader = document.querySelector(".loader");
   loader?.classList.add("loader-hidden");
 }
 
-function showDetails() {
+async function showDetails(url) {
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const firstAttribut = data.types[0].type.name;
+  const firstType = TYPE_DATA[firstAttribut];
+  const backgroundCart = firstType?.color;
+  const pokeId = data.id;
+
+  const height = data.height / 10;
+  const weight = data.weight / 10;
+
+  let attributes = "";
+  for (let i = 0; i < data.types.length; i++) {
+    const typeName = data.types[i].type.name;
+    attributes += typeName;
+    if (i < data.types.length - 1) {
+      attributes += " & ";
+    }
+  }
+
+  let abilities = "";
+  for (let i = 0; i < data.abilities.length; i++) {
+    const abilityName = data.abilities[i].ability.name;
+    abilities += abilityName;
+    if (i < data.abilities.length - 1) {
+      abilities += ", ";
+    }
+  }
+
+  let moves = "";
+  for (let i = 0; i < data.moves.length && i < 5; i++) {
+    moves += data.moves[i].move.name;
+    if (i < 4 && i < data.moves.length - 1) {
+      moves += ", ";
+    }
+  }
+
+  let hpStat, attackStat, defenseStat, spAtk, spDef, speedStat;
+  for (let i = 0; i < data.stats.length; i++) {
+    const stat = data.stats[i];
+    const name = stat.stat.name;
+    if (name === "hp") hpStat = stat.base_stat;
+    if (name === "attack") attackStat = stat.base_stat;
+    if (name === "defense") defenseStat = stat.base_stat;
+    if (name === "special-attack") spAtk = stat.base_stat;
+    if (name === "special-defense") spDef = stat.base_stat;
+    if (name === "speed") speedStat = stat.base_stat;
+  }
+
+  const img = data.sprites.other["official-artwork"].front_default;
+  const shiny = data.sprites.other["official-artwork"].front_shiny;
+
+  const pokeCard = `
+    <div class="poke-card">
+
+        <div class="info">
+
+            <div class="card-background" style="background:${backgroundCart}">
+                <img class="poke-img" src="${img}">
+            </div>
+
+            <div class="poke-name-id">
+                <h3>${data.name}</h3>
+                <h5>#${pokeId}</h5>
+            </div>
+
+            <div class="poke-attributes">
+                <p>${attributes}</p>
+            </div>
+        </div>
+
+        <ul>
+            <li>Name: ${data.name}</li>
+            <li>Größe: ${height} m</li>
+            <li>Gewicht: ${weight} kg</li>
+            <li>Fähigkeiten: ${abilities}</li>
+            <li>Attacken: ${moves}</li>
+        </ul>
+
+        <ul>
+            <li>HP: ${hpStat}</li>
+            <li>Attacke: ${attackStat}</li>
+            <li>Verteidigung: ${defenseStat}</li>
+            <li>Spez. Angriff: ${spAtk}</li>
+            <li>Spez. Verteidigung: ${spDef}</li>
+            <li>Initiative: ${speedStat}</li>
+        </ul>
+
+        <img class="shiny-img" src="${shiny}">
+
+    </div>
+  `;
+
+  document.getElementById('content').innerHTML = pokeCard;
 
 }
 
