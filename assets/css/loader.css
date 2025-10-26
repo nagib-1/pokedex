@@ -1,0 +1,40 @@
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(160, 98, 129);
+}
+
+.loader-hidden {
+    display: none;
+}
+
+.loader img {
+    width: 350px;
+    height: 350px;
+    animation: spin 1.75s linear infinite;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-more {
+    padding: 30px;
+    margin: 20px;
+    width: 220px;
+    border: none;
+    border-radius: 28px;
+    background-color: #388b8bdb;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}

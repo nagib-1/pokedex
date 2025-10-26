@@ -1,0 +1,133 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+}
+
+.poke-card {
+    display: flex;
+    flex-direction: column;
+    text-transform: capitalize;
+    background-color: white;
+    padding: 16px;
+    border-radius: 12px;
+    width: 480px;
+    height: 600px;
+    gap: 18px;
+}
+
+.poke-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    height: 190px;
+    width: 100%;
+}
+
+.poke-img {
+    height: 170px;
+    object-fit: contain;
+}
+
+.poke-info {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.poke-info h4,
+.poke-info p {
+    margin: 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.no-capitalize {
+    text-transform: none !important;
+}
+
+.shiny-img {
+    display: block;
+    padding-top: 18px;
+    margin: 0 auto;
+    width: 200px;
+    object-fit: contain;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.tab-btn {
+    background: #eee;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.tab-btn:hover {
+    background: #ddd;
+}
+
+.tab-btn.active {
+    background: #ccc;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.prev-button,
+.next-button,
+.close-button {
+    width: 54px;
+    height: 54px;
+    font-size: 34px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prev-button:hover,
+.next-button:hover {
+    color: green;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.close-button:hover {
+    color: #d92f2f;
+    background-color: rgba(0, 0, 0, 0.8);
+}
