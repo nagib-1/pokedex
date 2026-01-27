@@ -41,33 +41,8 @@
     align-items: center;
 }
 
-.poke-info h4,
 .poke-info p {
     margin: 0;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-ul li {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-}
-
-.no-capitalize {
-    text-transform: none !important;
-}
-
-.shiny-img {
-    display: block;
-    padding-top: 18px;
-    margin: 0 auto;
-    width: 200px;
-    object-fit: contain;
 }
 
 .tab-buttons {
@@ -100,6 +75,30 @@ ul li {
     display: block;
 }
 
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.no-capitalize {
+    text-transform: none !important;
+}
+
+.shiny-img {
+    display: block;
+    padding-top: 18px;
+    margin: 0 auto;
+    width: 200px;
+    object-fit: contain;
+}
+
 .bottom-buttons {
     display: flex;
     justify-content: space-between;
@@ -114,11 +113,18 @@ ul li {
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     border: none;
-    border-radius: 100%;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+}
+
+.prev-button span,
+.next-button span {
+    display: inline-block;
+    transform: translateY(-2px);
 }
 
 .prev-button:hover,

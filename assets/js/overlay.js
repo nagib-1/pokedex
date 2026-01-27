@@ -49,7 +49,7 @@ async function openOverlay(url) {
         </div>
 
         <div class="poke-info">
-            <h4>${data.name}</h4>
+            <p>${data.name}</p>
             <p>${attributes}</p>
             <p>#${pokeId}</p>
         </div>
@@ -86,9 +86,9 @@ async function openOverlay(url) {
         </div>
 
         <div class="bottom-buttons">
-            <button class="prev-button" onclick="prevImg(${data.id - 1})">&larr;</button>
-            <button class="close-button">&times;</button>
-            <button class="next-button" onclick="nextImg(${data.id + 1})">&rarr;</button>
+            <button class="prev-button" onclick="prevImg(${data.id - 1})"><span>&larr;</span></button>
+            <button class="close-button"><span>&times;</span></button>
+            <button class="next-button" onclick="nextImg(${data.id + 1})"><span>&rarr;</span></button>
         </div>
     </div>
 `;
