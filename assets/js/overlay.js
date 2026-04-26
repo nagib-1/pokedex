@@ -1,12 +1,14 @@
-async function openOverlay(url) {
-  const res = await fetch(url);
+async function openOverlay(names) {
+  const res = await fetch(names);
   const data = await res.json();
 
   const firstTypeName = data.types[0].type.name;
   const backgroundCart = TYPE_DATA[firstTypeName]?.color;
-  const pokeId = data.id;
   const height = data.height / 10;
   const weight = data.weight / 10;
+
+  const img = data.sprites?.other?.['official-artwork']?.front_default || '';
+  const shiny = data.sprites?.other?.['official-artwork']?.front_shiny || '';
 
   let attributes = '';
   for (let i = 0; i < data.types.length; i++) {
@@ -39,9 +41,6 @@ async function openOverlay(url) {
     if (n === 'speed') speedStat = s.base_stat;
   }
 
-  const img = data.sprites?.other?.['official-artwork']?.front_default || '';
-  const shiny = data.sprites?.other?.['official-artwork']?.front_shiny || '';
-
   const pokeCard = `
     <div class="poke-card">
         <div class="poke-background" style="background:${backgroundCart}">
@@ -51,7 +50,7 @@ async function openOverlay(url) {
         <div class="poke-info">
             <p>${data.name}</p>
             <p>${attributes}</p>
-            <p>#${pokeId}</p>
+            <p>#${data.id}</p>
         </div>
 
         <div class="tab-buttons">
@@ -90,14 +89,17 @@ async function openOverlay(url) {
             <button class="close-button"><span>&times;</span></button>
             <button class="next-button" onclick="nextImg(${data.id + 1})"><span>&rarr;</span></button>
         </div>
-    </div>
-`;
+    </div>`;
 
   const overlay = document.getElementById('overlay');
   overlay.innerHTML = pokeCard;
   overlay.style.display = 'flex';
   document.body.classList.add('no-scroll');
 
+  setupOverlay(overlay);
+}
+
+function setupOverlay(overlay) {
   const overlayCloseBtn = overlay.querySelector('.close-button');
   const tabButtons = overlay.querySelectorAll('.tab-btn');
   const tabContents = overlay.querySelectorAll('.tab-content');
@@ -105,10 +107,12 @@ async function openOverlay(url) {
   for (let i = 0; i < tabButtons.length; i++) {
     tabButtons[i].addEventListener('click', () => {
       const target = tabButtons[i].dataset.tab;
+
       for (let j = 0; j < tabButtons.length; j++) {
         tabButtons[j].classList.remove('active');
         tabContents[j].classList.remove('active');
       }
+
       tabButtons[i].classList.add('active');
       overlay.querySelector(`#tab-${target}`).classList.add('active');
     });

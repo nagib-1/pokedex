@@ -40,7 +40,7 @@
 .pokemon-image {
     width: 180px;
     aspect-ratio: 1 / 1;
-    border-radius: 9999px;
+    border-radius: 100px;
     border: 1px solid #eeeeee9d;
     box-sizing: border-box;
     overflow: hidden;

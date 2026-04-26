@@ -22,6 +22,22 @@ const TYPE_DATA = {
 const limit = 25;
 let offset = 25;
 
+async function init() {
+    showLoader();
+
+    try {
+        const response = await fetch(BASE_URL)
+        const data = await response.json();
+        await renderCards(data);
+
+    } catch {
+        document.getElementById("content").innerHTML = `<p>ERROR</p>`;
+
+    } finally {
+        hideLoader();
+    }
+}
+
 async function renderCards(data) {
     for (let index = 0; index < data.results.length; index++) {
         const names = data.results[index];
@@ -56,22 +72,6 @@ async function renderCards(data) {
                     </div>
                 </div>`;
         document.getElementById('content').innerHTML += card;
-    }
-}
-
-async function init() {
-    showLoader();
-
-    try {
-        const response = await fetch(BASE_URL)
-        const data = await response.json();
-        await renderCards(data);
-
-    } catch {
-        document.getElementById("content").innerHTML = `<p>ERROR</p>`;
-
-    } finally {
-        hideLoader();
     }
 }
 
