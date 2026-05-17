@@ -1,4 +1,4 @@
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=25&offset=0";
+const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0";
 const TYPE_DATA = {
     bug: { icon: "./icons/bug.svg", color: "#A8B820" },
     dark: { icon: "./icons/dark.svg", color: "#705848" },
@@ -21,6 +21,9 @@ const TYPE_DATA = {
 };
 const limit = 25;
 let offset = 25;
+let allPokemon = [];
+let visiblePokemon = [];
+let renderId = 0;
 
 async function init() {
     showLoader();
@@ -28,7 +31,12 @@ async function init() {
     try {
         const response = await fetch(BASE_URL)
         const data = await response.json();
-        await renderCards(data);
+
+        allPokemon = data.results;
+        visiblePokemon = allPokemon.slice(0, 25);
+
+        await renderCards(visiblePokemon);
+        setupSearch();
 
     } catch {
         document.getElementById("content").innerHTML = `<p>ERROR</p>`;
@@ -38,12 +46,23 @@ async function init() {
     }
 }
 
-async function renderCards(data) {
-    for (let index = 0; index < data.results.length; index++) {
-        const names = data.results[index];
+async function renderCards(pokemonList) {
+    const currentRenderId = ++renderId;
+    const content = document.getElementById("content");
+
+    content.innerHTML = "";
+
+    for (let index = 0; index < pokemonList.length; index++) {
+        if (currentRenderId !== renderId) {
+            return;
+        }
+        const names = pokemonList[index];
 
         const detailRes = await fetch(names.url);
         const detailData = await detailRes.json();
+        if (currentRenderId !== renderId) {
+            return;
+        }
 
         const imgUrl = detailData.sprites.other.dream_world.front_default;
         const firstAttribut = detailData.types[0].type.name;
@@ -81,11 +100,10 @@ async function loadMore() {
     showLoader();
 
     try {
-        const nextUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
-        const response = await fetch(nextUrl)
-        const data = await response.json();
-        await renderCards(data);
         offset += limit;
+        visiblePokemon = allPokemon.slice(0, offset);
+
+        await renderCards(visiblePokemon);
 
     } catch {
         document.getElementById("content").innerHTML = `<p>ERROR</p>`;
